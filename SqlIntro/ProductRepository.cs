@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -44,7 +45,7 @@ namespace SqlIntro
             using (var conn = new MySqlConnection(_connectionString))
             {
                 var cmd = conn.CreateCommand();
-                cmd.CommandText = "DELETE FROM products WHERE id = ProductId"; //Write a delete statement that deletes by id
+                cmd.CommandText = "DELETE FROM products WHERE ProductId"; //Write a delete statement that deletes by id
                 cmd.ExecuteNonQuery();
             }
         }
@@ -59,7 +60,7 @@ namespace SqlIntro
             using (var conn = new MySqlConnection(_connectionString))
             {
                 var cmd = conn.CreateCommand();
-                cmd.CommandText = "UPDATE products SET name = @name where id = @ProductId";
+                cmd.CommandText = "UPDATE product SET name = @name WHERE ProductId = @id";
                 cmd.Parameters.AddWithValue("@name", prod.Name);
                 cmd.Parameters.AddWithValue("@id", prod.Id);
                 cmd.ExecuteNonQuery();
@@ -77,9 +78,9 @@ namespace SqlIntro
                 cmd.CommandText = "INSERT INTO product (name) values(@name)";
                 cmd.Parameters.AddWithValue("@name", prod.Name);
                 cmd.ExecuteNonQuery();
-            }
 
-            Console.ReadKey();
+                Console.ReadKey();
+            }
         }
     }
 }
