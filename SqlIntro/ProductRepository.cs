@@ -26,7 +26,7 @@ namespace SqlIntro
             using (var conn = new MySqlConnection(_connectionString))
             {
                 var cmd = conn.CreateCommand();
-                cmd.CommandText = ""; //TODO:  Write a SELECT statement that gets all products
+                cmd.CommandText = "SELECT * products"; //TODO:  Write a SELECT statement that gets all products
                 var dr = cmd.ExecuteReader();
                 while (dr.Read())
                 {
@@ -44,7 +44,7 @@ namespace SqlIntro
             using (var conn = new MySqlConnection(_connectionString))
             {
                 var cmd = conn.CreateCommand();
-                cmd.CommandText = ""; //Write a delete statement that deletes by id
+                cmd.CommandText = "DELETE FROM products WHERE id = ProductId"; //Write a delete statement that deletes by id
                 cmd.ExecuteNonQuery();
             }
         }
@@ -59,7 +59,7 @@ namespace SqlIntro
             using (var conn = new MySqlConnection(_connectionString))
             {
                 var cmd = conn.CreateCommand();
-                cmd.CommandText = "update product set name = @name where id = @id";
+                cmd.CommandText = "UPDATE products SET name = @name where id = @ProductId";
                 cmd.Parameters.AddWithValue("@name", prod.Name);
                 cmd.Parameters.AddWithValue("@id", prod.Id);
                 cmd.ExecuteNonQuery();
@@ -74,10 +74,12 @@ namespace SqlIntro
             using (var conn = new MySqlConnection(_connectionString))
             {
                 var cmd = conn.CreateCommand();
-                cmd.CommandText = "INSERT into product (name) values(@name)";
+                cmd.CommandText = "INSERT INTO product (name) values(@name)";
                 cmd.Parameters.AddWithValue("@name", prod.Name);
                 cmd.ExecuteNonQuery();
             }
+
+            Console.ReadKey();
         }
     }
 }
