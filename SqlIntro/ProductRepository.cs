@@ -26,8 +26,11 @@ namespace SqlIntro
         {
             using (var conn = new MySqlConnection(_connectionString))
             {
+                conn.Open();
+
+
                 var cmd = conn.CreateCommand();
-                cmd.CommandText = "SELECT * products"; //TODO:  Write a SELECT statement that gets all products
+                cmd.CommandText = "SELECT * FROM products"; //TODO:  Write a SELECT statement that gets all products
                 var dr = cmd.ExecuteReader();
                 while (dr.Read())
                 {
