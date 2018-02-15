@@ -7,6 +7,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
+using Dapper;
 
 namespace SqlIntro
 {
@@ -49,10 +50,12 @@ namespace SqlIntro
                 conn.Open();
 
                 var cmd = conn.CreateCommand();
-                cmd.CommandText = "DELETE FROM product WHERE ProductId = @Id"; //Write a delete statement that deletes by id
+                cmd.CommandText = "DELETE FROM product WHERE ProductId = @Id";
+                cmd.Parameters.AddWithValue("@id", id);
                 cmd.ExecuteNonQuery();
             }
         }
+
         /// <summary>
         /// Updates the Product in the database
         /// </summary>
@@ -72,6 +75,7 @@ namespace SqlIntro
                 cmd.ExecuteNonQuery();
             }
         }
+
         /// <summary>
         /// Inserts a new Product into the database
         /// </summary>

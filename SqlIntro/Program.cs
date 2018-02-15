@@ -15,15 +15,10 @@ namespace SqlIntro
 
             foreach (var prod in repo.GetProducts())
             {
-                if (product == null)
-                {
-                    product = prod;
-                }
+                if (product == null && prod.Name == "Cody's Lame Product") { product = prod; }
 
                 Console.WriteLine("Product Name:" + prod.Name);
             }
-
-            repo.DeleteProduct(3);
 
             if (product != null)
             {
