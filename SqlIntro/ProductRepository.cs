@@ -28,9 +28,8 @@ namespace SqlIntro
             {
                 conn.Open();
 
-
                 var cmd = conn.CreateCommand();
-                cmd.CommandText = "SELECT * FROM products"; //TODO:  Write a SELECT statement that gets all products
+                cmd.CommandText = "SELECT Name FROM product"; //TODO:  Write a SELECT statement that gets all products
                 var dr = cmd.ExecuteReader();
                 while (dr.Read())
                 {
@@ -48,7 +47,7 @@ namespace SqlIntro
             using (var conn = new MySqlConnection(_connectionString))
             {
                 var cmd = conn.CreateCommand();
-                cmd.CommandText = "DELETE FROM products WHERE ProductId"; //Write a delete statement that deletes by id
+                cmd.CommandText = "DELETE FROM product WHERE id = @id"; //Write a delete statement that deletes by id
                 cmd.ExecuteNonQuery();
             }
         }

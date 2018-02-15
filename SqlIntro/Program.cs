@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 
 namespace SqlIntro
 {
@@ -6,7 +7,7 @@ namespace SqlIntro
     {
         static void Main(string[] args)
         {
-            var connectionString = ""; //get connectionString format from connectionstrings.com and change to match your database
+            var connectionString = ConfigurationManager.ConnectionStrings["AdventureWorks"].ConnectionString;
             var repo = new ProductRepository(connectionString);
             foreach (var prod in repo.GetProducts())
             {
