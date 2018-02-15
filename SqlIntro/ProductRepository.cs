@@ -10,7 +10,7 @@ using MySql.Data.MySqlClient;
 
 namespace SqlIntro
 {
-    public class ProductRepository
+    public class ProductRepository : IProductRepository
     {
         private readonly string _connectionString;
 
@@ -46,8 +46,10 @@ namespace SqlIntro
         {
             using (var conn = new MySqlConnection(_connectionString))
             {
+                conn.Open();
+
                 var cmd = conn.CreateCommand();
-                cmd.CommandText = "DELETE FROM product WHERE id = @id"; //Write a delete statement that deletes by id
+                cmd.CommandText = "DELETE FROM product WHERE ProductId = @Id"; //Write a delete statement that deletes by id
                 cmd.ExecuteNonQuery();
             }
         }
@@ -61,8 +63,10 @@ namespace SqlIntro
             //More on this in the future...  Nothing to do here..
             using (var conn = new MySqlConnection(_connectionString))
             {
+                conn.Open();
+
                 var cmd = conn.CreateCommand();
-                cmd.CommandText = "UPDATE product SET name = @name WHERE ProductId = @id";
+                cmd.CommandText = "UPDATE product SET name = @name WHERE ProductId = @Id";
                 cmd.Parameters.AddWithValue("@name", prod.Name);
                 cmd.Parameters.AddWithValue("@id", prod.Id);
                 cmd.ExecuteNonQuery();
