@@ -92,5 +92,37 @@ namespace SqlIntro
                 Console.ReadKey();
             }
         }
+
+        public IEnumerable<Product> GetProductsWithReview()
+        {
+            using (var conn = new MySqlConnection(_connectionString))
+            {
+                conn.Open();
+                var cmd = conn.CreateCommand();
+                cmd.CommandText = "SELECT Name, Rating FROM product INNER JOIN productreview ON product.ProductID = productreview.ProductID";
+
+                var dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    yield return new Product { Name = dr["Rating"].ToString() };
+                }
+            }
+        }
+
+        public IEnumerable<Product> GetProductsAndReviews()
+        {
+            using (var conn = new MySqlConnection(_connectionString))
+            {
+                conn.Open();
+                var cmd = conn.CreateCommand();
+                cmd.CommandText = "SELECT Name, Rating FROM product LEFT JOIN productreview ON product.ProductID = productreview.ProductID";
+
+                var dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    yield return new Product { Name = dr["Rating"].ToString() };
+                }
+            }
+        }
     }
 }

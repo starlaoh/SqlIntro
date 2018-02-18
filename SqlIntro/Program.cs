@@ -8,28 +8,32 @@ namespace SqlIntro
         static void Main(string[] args)
         {
             var connectionString = ConfigurationManager.ConnectionStrings["AdventureWorks"].ConnectionString;
-            var repo = new ProductRepository(connectionString);
+            var repo = new DapperProjectRepository(connectionString);
 
             Product product = null;
-            //IProductRepository repo = new ProductRepository(Connection); 
 
             foreach (var prod in repo.GetProducts())
             {
-                if (product == null && prod.Name == "Cody's Lame Product") { product = prod; }
+                if (product == null ) { product = prod; }
 
                 Console.WriteLine("Product Name:" + prod.Name);
             }
 
-            if (product != null)
+            foreach (var rate in repo.GetProductsWithReview())
             {
-                product.Name = "Cody's Lame Product";
-                repo.UpdateProduct(product);
+                if (product == null) { product = rate; }
+
+                Console.WriteLine("Product Name:" + rate.Name + "Rating:" + rate.Rating);
             }
 
-           
+            foreach (var prod in repo.GetProductsAndReviews())
+            {
+                if (product == null) { product = prod; }
+
+                Console.WriteLine("Product Name:" + prod.Name);
+            }
+            
             Console.ReadLine();
         }
-
-       
     }
 }

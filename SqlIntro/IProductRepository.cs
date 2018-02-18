@@ -2,11 +2,14 @@
 
 namespace SqlIntro
 {
-    public interface IProductRepository
+    public interface IProductRepository 
     {
         void DeleteProduct(int id);
-        IEnumerable<Product> GetProducts();
         void InsertProduct(Product prod);
         void UpdateProduct(Product prod);
+        IEnumerable<Product> GetProducts();
+        IEnumerable<Product> GetProductsWithReview();
+        IEnumerable<Product> GetProductsAndReviews();
     }
+
 }
