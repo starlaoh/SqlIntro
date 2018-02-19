@@ -1,23 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Net.Sockets;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using MySql.Data.MySqlClient;
-using Dapper;
+using System.Data;
 
 namespace SqlIntro
 {
     public class ProductRepository : IProductRepository
     {
-        private readonly string _connectionString;
+        private readonly IDbConnection _conn;
 
-        public ProductRepository(string connectionString)
+        public ProductRepository(IDbConnection conn)
         {
-            _connectionString = connectionString;
+            _conn = conn;
         }
         /// <summary>
         /// Reads all the products from the products table
@@ -25,7 +18,7 @@ namespace SqlIntro
         /// <returns></returns>
         public IEnumerable<Product> GetProducts()
         {
-            using (var conn = new MySqlConnection(_connectionString))
+            using (var conn = _conn)
             {
                 conn.Open();
 
@@ -45,13 +38,13 @@ namespace SqlIntro
         /// <param name="id"></param>
         public void DeleteProduct(int id)
         {
-            using (var conn = new MySqlConnection(_connectionString))
+            using (var conn = _conn)
             {
                 conn.Open();
 
                 var cmd = conn.CreateCommand();
                 cmd.CommandText = "DELETE FROM product WHERE ProductId = @Id";
-                cmd.Parameters.AddWithValue("@id", id);
+                cmd.AddParamWithValue("@id", id);
                 cmd.ExecuteNonQuery();
             }
         }
@@ -64,14 +57,14 @@ namespace SqlIntro
         {
             //This is annoying and unnecessarily tedious for large objects.
             //More on this in the future...  Nothing to do here..
-            using (var conn = new MySqlConnection(_connectionString))
+            using (var conn = _conn)
             {
                 conn.Open();
 
                 var cmd = conn.CreateCommand();
                 cmd.CommandText = "UPDATE product SET name = @name WHERE ProductId = @Id";
-                cmd.Parameters.AddWithValue("@name", prod.Name);
-                cmd.Parameters.AddWithValue("@id", prod.Id);
+                cmd.AddParamWithValue("@name", prod.Name);
+                cmd.AddParamWithValue("@id", prod.Id);
                 cmd.ExecuteNonQuery();
             }
         }
@@ -82,11 +75,11 @@ namespace SqlIntro
         /// <param name="prod"></param>
         public void InsertProduct(Product prod)
         {
-            using (var conn = new MySqlConnection(_connectionString))
+            using (var conn = _conn)
             {
                 var cmd = conn.CreateCommand();
                 cmd.CommandText = "INSERT INTO product (name) values(@name)";
-                cmd.Parameters.AddWithValue("@name", prod.Name);
+                cmd.AddParamWithValue("@name", prod.Name);
                 cmd.ExecuteNonQuery();
 
                 Console.ReadKey();
@@ -95,7 +88,7 @@ namespace SqlIntro
 
         public IEnumerable<Product> GetProductsWithReview()
         {
-            using (var conn = new MySqlConnection(_connectionString))
+            using (var conn = _conn)
             {
                 conn.Open();
                 var cmd = conn.CreateCommand();
@@ -111,7 +104,7 @@ namespace SqlIntro
 
         public IEnumerable<Product> GetProductsAndReviews()
         {
-            using (var conn = new MySqlConnection(_connectionString))
+            using (var conn = _conn)
             {
                 conn.Open();
                 var cmd = conn.CreateCommand();

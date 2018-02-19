@@ -106,7 +106,7 @@
     </remarks>
     <example>
     </example>
-    <param name="connectionString">The connection properties used to open the MySQL database. </param>
+    <param name="conn">The connection properties used to open the MySQL database. </param>
   </Ctor1>
 
   <Open>
